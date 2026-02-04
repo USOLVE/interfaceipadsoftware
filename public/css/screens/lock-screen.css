@@ -1,0 +1,374 @@
+/* Lock Screen - Écran de verrouillage */
+
+.lock-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-modal);
+  /* Fallback gradient if image not found */
+  background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  transition: transform var(--duration-slow) var(--ease-ios),
+              opacity var(--duration-slow) var(--ease-ios);
+}
+
+.lock-screen.unlocking {
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.lock-screen.hidden {
+  display: none;
+}
+
+/* Wallpaper overlay for text readability */
+.lock-screen::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 100%);
+  z-index: 0;
+}
+
+.lock-screen > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Time and Date */
+.lock-screen__time-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px;
+}
+
+.lock-screen__time {
+  font-size: 96px;
+  font-weight: 200;
+  color: #FFFFFF;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+  letter-spacing: -2px;
+  line-height: 1;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.lock-screen__date {
+  font-size: 20px;
+  font-weight: 500;
+  color: #FFFFFF;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+  margin-top: var(--spacing-sm);
+  letter-spacing: 0.5px;
+}
+
+/* Notification Previews on Lock Screen */
+.lock-screen__notifications {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: 0 var(--spacing-lg);
+  max-height: 300px;
+  overflow-y: auto;
+  margin-bottom: var(--spacing-xl);
+}
+
+.lock-screen__notification {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: flex-start;
+  animation: slideDown var(--duration-slow) var(--spring-ios);
+}
+
+.lock-screen__notification-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.lock-screen__notification-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.lock-screen__notification-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.lock-screen__notification-app {
+  font-size: 13px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2px;
+}
+
+.lock-screen__notification-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Bottom Controls */
+.lock-screen__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--spacing-xl) var(--spacing-xl);
+  margin-bottom: var(--home-indicator-height);
+}
+
+.lock-screen__control {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-ios),
+              background-color var(--duration-fast) var(--ease-ios);
+}
+
+.lock-screen__control:active {
+  transform: scale(0.9);
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Slide to Unlock */
+.lock-screen__slide-container {
+  position: absolute;
+  bottom: calc(var(--spacing-xl) + var(--home-indicator-height));
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lock-screen__slide-text {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-ios);
+}
+
+.lock-screen__slide-container.dragging .lock-screen__slide-text {
+  opacity: 0;
+}
+
+.lock-screen__slide-icon {
+  font-size: 20px;
+  animation: bounce 2s ease-in-out infinite;
+}
+
+/* Slide to unlock track */
+.lock-screen__slide-track {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+
+.lock-screen__slide-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0%;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  transition: width 0.1s linear;
+}
+
+/* Home indicator */
+.lock-screen__home-indicator {
+  position: absolute;
+  bottom: var(--spacing-sm);
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+/* PIN Code Screen */
+.pin-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: saturate(180%) blur(40px);
+  -webkit-backdrop-filter: saturate(180%) blur(40px);
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-ios);
+  z-index: 10;
+}
+
+.pin-screen.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.pin-screen__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.pin-screen__title {
+  font-size: 24px;
+  font-weight: 400;
+  color: #FFFFFF;
+  margin-bottom: 30px;
+}
+
+.pin-screen__dots {
+  display: flex;
+  gap: 20px;
+}
+
+.pin-screen__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  background: transparent;
+  transition: background-color var(--duration-fast) var(--ease-ios),
+              transform var(--duration-fast) var(--ease-ios);
+}
+
+.pin-screen__dot.filled {
+  background-color: #FFFFFF;
+  transform: scale(1.1);
+}
+
+.pin-screen__dot.error {
+  border-color: var(--ios-red);
+  background-color: var(--ios-red);
+  animation: shake 0.5s ease-in-out;
+}
+
+.pin-screen__error {
+  margin-top: 20px;
+  font-size: 16px;
+  color: var(--ios-red);
+  opacity: 0;
+  transition: opacity var(--duration-fast) var(--ease-ios);
+}
+
+.pin-screen__error.visible {
+  opacity: 1;
+}
+
+.pin-screen__keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 20px;
+}
+
+.pin-screen__key {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  font-size: 32px;
+  font-weight: 300;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--duration-fast) var(--ease-ios),
+              transform var(--duration-fast) var(--ease-ios);
+}
+
+.pin-screen__key:active {
+  background-color: rgba(255, 255, 255, 0.4);
+  transform: scale(0.95);
+}
+
+.pin-screen__key--empty {
+  background: transparent;
+  pointer-events: none;
+}
+
+.pin-screen__key--delete {
+  font-size: 28px;
+  background: transparent;
+}
+
+.pin-screen__key--delete:active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pin-screen__cancel {
+  margin-top: 40px;
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.pin-screen__cancel:active {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Shake animation for wrong PIN */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+  20%, 40%, 60%, 80% { transform: translateX(10px); }
+}

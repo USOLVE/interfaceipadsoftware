@@ -1,0 +1,92 @@
+{
+  "apps": [
+    {
+      "id": "messages",
+      "name": "Messages",
+      "icon": "/assets/images/app-icons/messages.png",
+      "badge": 0,
+      "dockPosition": 0,
+      "color": "#34C759"
+    },
+    {
+      "id": "facetime",
+      "name": "FaceTime",
+      "icon": "/assets/images/app-icons/facetime.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#34C759"
+    },
+    {
+      "id": "photos",
+      "name": "Photos",
+      "icon": "/assets/images/app-icons/photos.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#007AFF"
+    },
+    {
+      "id": "safari",
+      "name": "Safari",
+      "icon": "/assets/images/app-icons/safari.png",
+      "badge": 0,
+      "dockPosition": 1,
+      "color": "#007AFF"
+    },
+    {
+      "id": "mail",
+      "name": "Mail",
+      "icon": "/assets/images/app-icons/mail.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#007AFF"
+    },
+    {
+      "id": "calendar",
+      "name": "Calendrier",
+      "icon": "/assets/images/app-icons/calendar.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#FF3B30"
+    },
+    {
+      "id": "notes",
+      "name": "Notes",
+      "icon": "/assets/images/app-icons/notes.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#FFCC00"
+    },
+    {
+      "id": "clock",
+      "name": "Horloge",
+      "icon": "/assets/images/app-icons/clock.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#000000"
+    },
+    {
+      "id": "settings",
+      "name": "Réglages",
+      "icon": "/assets/images/app-icons/settings.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#8E8E93"
+    },
+    {
+      "id": "files",
+      "name": "Fichiers",
+      "icon": "/assets/images/app-icons/files.png",
+      "badge": 0,
+      "dockPosition": 2,
+      "color": "#007AFF"
+    },
+    {
+      "id": "music",
+      "name": "Musique",
+      "icon": "/assets/images/app-icons/music.png",
+      "badge": 0,
+      "dockPosition": null,
+      "color": "#FF2D55"
+    }
+  ]
+}

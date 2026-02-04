@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="iPad">
+  <title>iPad - Escape Game Interface</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/typography.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/components/status-bar.css">
+  <link rel="stylesheet" href="/css/components/blur-effects.css">
+  <link rel="stylesheet" href="/css/components/notifications.css">
+  <link rel="stylesheet" href="/css/screens/lock-screen.css">
+  <link rel="stylesheet" href="/css/screens/home-screen.css">
+  <link rel="stylesheet" href="/css/screens/call-screen.css">
+  <link rel="stylesheet" href="/css/screens/messages-app.css">
+  <link rel="stylesheet" href="/css/screens/notes-app.css">
+  <link rel="stylesheet" href="/css/screens/photos-app.css">
+  <link rel="stylesheet" href="/css/screens/clock-app.css">
+</head>
+<body>
+  <!-- iPad Container -->
+  <div id="ipad" class="ipad">
+
+    <!-- Status Bar (toujours visible) -->
+    <div class="status-bar lock-style" id="statusBar">
+      <div class="status-bar__left">
+        <span class="status-bar__time" id="statusTime">10:30</span>
+        <span class="status-bar__timer" id="statusTimer">60:00</span>
+      </div>
+      <div class="status-bar__center">
+        <button class="status-bar__hint-btn" id="hintBtn" title="Demander un indice">?</button>
+      </div>
+      <div class="status-bar__right">
+        <!-- Signal -->
+        <div class="status-bar__signal">
+          <div class="status-bar__signal-bar"></div>
+          <div class="status-bar__signal-bar"></div>
+          <div class="status-bar__signal-bar"></div>
+          <div class="status-bar__signal-bar"></div>
+        </div>
+        <!-- WiFi -->
+        <div class="status-bar__wifi"></div>
+        <!-- Battery -->
+        <div class="status-bar__battery" id="statusBattery">
+          <span class="status-bar__battery-level">100%</span>
+          <div class="status-bar__battery-icon">
+            <div class="status-bar__battery-fill" style="width: 100%"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lock Screen -->
+    <div class="lock-screen" id="lockScreen" style="background-image: url('/assets/images/wallpapers/default.jpg');">
+      <div class="lock-screen__time-container">
+        <div class="lock-screen__time" id="lockTime">10:30</div>
+        <div class="lock-screen__date" id="lockDate">Vendredi 2 février</div>
+      </div>
+
+      <div class="lock-screen__notifications" id="lockNotifications">
+        <!-- Notifications will be inserted here -->
+      </div>
+
+      <div class="lock-screen__bottom">
+        <button class="lock-screen__control" id="flashlightBtn">
+          <span>🔦</span>
+        </button>
+        <button class="lock-screen__control" id="cameraBtn">
+          <span>📷</span>
+        </button>
+      </div>
+
+      <div class="lock-screen__slide-container" id="slideToUnlock">
+        <div class="lock-screen__slide-text">
+          <span class="lock-screen__slide-icon">⬆</span>
+          <span>Balayer pour déverrouiller</span>
+        </div>
+        <div class="lock-screen__slide-track">
+          <div class="lock-screen__slide-progress" id="slideProgress"></div>
+        </div>
+      </div>
+
+      <!-- PIN Code Screen -->
+      <div class="pin-screen" id="pinScreen">
+        <div class="pin-screen__header">
+          <div class="pin-screen__title">Entrez le code</div>
+          <div class="pin-screen__dots" id="pinDots">
+            <div class="pin-screen__dot"></div>
+            <div class="pin-screen__dot"></div>
+            <div class="pin-screen__dot"></div>
+            <div class="pin-screen__dot"></div>
+          </div>
+          <div class="pin-screen__error" id="pinError">Code incorrect</div>
+        </div>
+        <div class="pin-screen__keypad" id="pinKeypad">
+          <button class="pin-screen__key" data-key="1">1</button>
+          <button class="pin-screen__key" data-key="2">2</button>
+          <button class="pin-screen__key" data-key="3">3</button>
+          <button class="pin-screen__key" data-key="4">4</button>
+          <button class="pin-screen__key" data-key="5">5</button>
+          <button class="pin-screen__key" data-key="6">6</button>
+          <button class="pin-screen__key" data-key="7">7</button>
+          <button class="pin-screen__key" data-key="8">8</button>
+          <button class="pin-screen__key" data-key="9">9</button>
+          <button class="pin-screen__key pin-screen__key--empty"></button>
+          <button class="pin-screen__key" data-key="0">0</button>
+          <button class="pin-screen__key pin-screen__key--delete" data-key="delete">⌫</button>
+        </div>
+        <button class="pin-screen__cancel" id="pinCancel">Annuler</button>
+      </div>
+
+      <div class="lock-screen__home-indicator"></div>
+    </div>
+
+    <!-- Home Screen -->
+    <div class="home-screen" id="homeScreen" style="background-image: url('/assets/images/wallpapers/default.jpg');">
+      <div class="home-screen__content">
+        <div class="home-screen__pages" id="homePages">
+          <div class="home-screen__page" id="homePage1">
+            <!-- App icons will be inserted here -->
+          </div>
+        </div>
+      </div>
+
+      <div class="home-screen__dock" id="homeDock">
+        <!-- Dock apps will be inserted here -->
+      </div>
+
+      <div class="home-screen__page-indicators" id="pageIndicators">
+        <div class="home-screen__page-indicator active"></div>
+      </div>
+
+      <div class="home-screen__home-indicator"></div>
+    </div>
+
+    <!-- Messages App -->
+    <div class="messages-app" id="messagesApp">
+      <div class="messages-app__header">
+        <button class="messages-app__back" id="messagesBackBtn">
+          <span class="messages-app__back-icon">‹</span>
+          <span>Accueil</span>
+        </button>
+        <div class="messages-app__title">Messages</div>
+        <div></div>
+      </div>
+
+      <div class="messages-app__conversation" id="messagesConversation">
+        <!-- Messages will be inserted here -->
+        <div class="messages-app__empty" id="messagesEmpty">
+          <div class="messages-app__empty-icon">💬</div>
+          <div class="messages-app__empty-text">
+            Pas de nouveau messages
+          </div>
+        </div>
+
+        <!-- Hint Request Button -->
+        <div class="messages-app__hint-request" id="messagesHintRequest">
+          <button class="messages-app__hint-btn" id="messagesHintBtn">
+            <span class="messages-app__hint-icon">💡</span>
+            <span class="messages-app__hint-text">Tu te souviens pas d'autres choses qui pourrait nous aider ?</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Photos App -->
+    <div class="photos-app" id="photosApp">
+      <div class="photos-app__header">
+        <button class="photos-app__back" id="photosBackBtn">
+          <span class="photos-app__back-icon">‹</span>
+          <span>Accueil</span>
+        </button>
+        <div class="photos-app__title">Photos</div>
+        <button class="photos-app__camera-btn" id="photosCameraBtn">
+          <span>📷</span>
+        </button>
+      </div>
+
+      <div class="photos-app__gallery" id="photosGallery">
+        <div class="photos-app__empty" id="photosEmpty">
+          <div class="photos-app__empty-icon">🖼️</div>
+          <div class="photos-app__empty-text">Aucune photo</div>
+        </div>
+      </div>
+
+      <!-- Photo Viewer -->
+      <div class="photos-app__viewer" id="photoViewer">
+        <button class="photos-app__viewer-close" id="photoViewerClose">✕</button>
+        <img class="photos-app__viewer-image" id="photoViewerImage" src="" alt="Photo">
+      </div>
+
+      <!-- Camera View -->
+      <div class="photos-app__camera" id="photosCamera">
+        <video class="photos-app__camera-preview" id="cameraPreview" autoplay playsinline></video>
+        <div class="photos-app__camera-controls">
+          <button class="photos-app__camera-cancel" id="cameraCancelBtn">Annuler</button>
+          <button class="photos-app__camera-capture" id="cameraCaptureBtn"></button>
+          <button class="photos-app__camera-switch" id="cameraSwitchBtn">🔄</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes App -->
+    <div class="notes-app" id="notesApp">
+      <div class="notes-app__header">
+        <button class="notes-app__back" id="notesBackBtn">
+          <span class="notes-app__back-icon">‹</span>
+          <span>Accueil</span>
+        </button>
+        <div class="notes-app__title">Notes</div>
+        <button class="notes-app__new" id="notesNewBtn">
+          <span>+</span>
+        </button>
+      </div>
+
+      <div class="notes-app__content">
+        <!-- Notes List View -->
+        <div class="notes-app__list" id="notesList">
+          <div class="notes-app__empty" id="notesEmpty">
+            <div class="notes-app__empty-icon">📝</div>
+            <div class="notes-app__empty-text">Aucune note</div>
+            <div class="notes-app__empty-hint">Appuyez sur + pour créer une note</div>
+          </div>
+        </div>
+
+        <!-- Note Editor View -->
+        <div class="notes-app__editor" id="notesEditor">
+          <div class="notes-app__editor-header">
+            <button class="notes-app__editor-back" id="notesEditorBack">
+              <span>‹</span>
+              <span>Notes</span>
+            </button>
+            <button class="notes-app__editor-delete" id="notesDeleteBtn">
+              <span>🗑️</span>
+            </button>
+          </div>
+          <textarea class="notes-app__textarea" id="notesTextarea" placeholder="Commencez à écrire..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clock App -->
+    <div class="clock-app" id="clockApp">
+      <div class="clock-app__header">
+        <button class="clock-app__back" id="clockBackBtn">
+          <span class="clock-app__back-icon">‹</span>
+          <span>Accueil</span>
+        </button>
+        <div class="clock-app__title">Horloge</div>
+        <div></div>
+      </div>
+
+      <div class="clock-app__content">
+        <div class="clock-app__timer-display">
+          <div class="clock-app__timer-circle">
+            <svg class="clock-app__timer-svg" viewBox="0 0 260 260">
+              <circle class="clock-app__timer-bg" cx="130" cy="130" r="126"/>
+              <circle class="clock-app__timer-progress" id="clockTimerProgress" cx="130" cy="130" r="126"/>
+            </svg>
+            <div class="clock-app__timer-text">
+              <div class="clock-app__timer-time" id="clockTimerTime">60:00</div>
+              <div class="clock-app__timer-label" id="clockTimerLabel">Temps restant</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="clock-app__branding">
+          <div class="clock-app__branding-text">Escape Game</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call Screen -->
+    <div class="call-screen" id="callScreen">
+      <div class="call-screen__background" id="callBackground"></div>
+
+      <div class="call-screen__ring">
+        <div class="call-screen__ring-pulse"></div>
+        <div class="call-screen__ring-pulse"></div>
+        <div class="call-screen__ring-pulse"></div>
+      </div>
+
+      <div class="call-screen__info">
+        <div class="call-screen__photo" id="callPhoto">
+          <img src="/assets/images/contact-photos/gm.jpg" alt="Caller">
+        </div>
+        <div class="call-screen__name" id="callName">Inconnu</div>
+        <div class="call-screen__number" id="callNumber">Mobile</div>
+        <div class="call-screen__status">Appel entrant...</div>
+      </div>
+
+      <div class="call-screen__actions">
+        <div class="call-screen__action call-screen__action--decline" id="declineCallBtn">
+          <div class="call-screen__action-button">
+            <span>✕</span>
+          </div>
+          <div class="call-screen__action-label">Refuser</div>
+        </div>
+        <div class="call-screen__action call-screen__action--answer" id="answerCallBtn">
+          <div class="call-screen__action-button">
+            <span>📞</span>
+          </div>
+          <div class="call-screen__action-label">Répondre</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Call Screen (after answering) -->
+    <div class="video-call-screen" id="videoCallScreen">
+      <video class="video-call-screen__video" id="callVideo" playsinline></video>
+      <div class="video-call-screen__overlay" id="videoCallOverlay">
+        <div class="video-call-screen__caller" id="videoCallCaller">Appel en cours...</div>
+        <div class="video-call-screen__duration" id="videoCallDuration">00:00</div>
+      </div>
+      <button class="video-call-screen__end" id="endVideoCallBtn">
+        <span>✕</span>
+        <span>Raccrocher</span>
+      </button>
+    </div>
+
+    <!-- Notification Banner -->
+    <div class="notification-banner" id="notificationBanner">
+      <div class="notification-banner__content">
+        <div class="notification-banner__icon" id="bannerIcon">
+          <img src="/assets/images/app-icons/messages.png" alt="App">
+        </div>
+        <div class="notification-banner__text">
+          <div class="notification-banner__app" id="bannerApp">Messages</div>
+          <div class="notification-banner__title" id="bannerTitle">Nouveau message</div>
+          <div class="notification-banner__message" id="bannerMessage">Vous avez reçu un indice...</div>
+        </div>
+        <div class="notification-banner__time" id="bannerTime">maintenant</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript -->
+  <!-- Socket.IO Client -->
+  <script src="/socket.io/socket.io.js"></script>
+
+  <!-- Core -->
+  <script src="/js/state-manager.js"></script>
+  <script src="/js/websocket-client.js"></script>
+  <script src="/js/gesture-handler.js"></script>
+  <script src="/js/animation-controller.js"></script>
+
+  <!-- Components -->
+  <script src="/js/components/status-bar.js"></script>
+  <script src="/js/components/notification.js"></script>
+  <script src="/js/components/message-bubble.js"></script>
+
+  <!-- Screens -->
+  <script src="/js/screens/lock-screen.js"></script>
+  <script src="/js/screens/home-screen.js"></script>
+  <script src="/js/screens/messages-app.js"></script>
+  <script src="/js/screens/notes-app.js"></script>
+  <script src="/js/screens/photos-app.js"></script>
+  <script src="/js/screens/clock-app.js"></script>
+  <script src="/js/screens/call-screen.js"></script>
+
+  <!-- Main -->
+  <script src="/js/main.js"></script>
+</body>
+</html>

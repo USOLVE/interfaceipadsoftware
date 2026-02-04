@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm install:*)",
+      "Bash(npm start)",
+      "Bash(curl:*)",
+      "Bash(start control-panel.html)",
+      "Bash(dir)",
+      "Bash(tree:*)",
+      "Bash(powershell:*)",
+      "Bash(cmd /c \"powershell -NoProfile -Command \"\"Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::CreateFromDirectory\\(''C:\\\\Users\\\\lucpe\\\\Desktop\\\\interfaceIpadsoftware_backup_2026-02-02'', ''C:\\\\Users\\\\lucpe\\\\Desktop\\\\interfaceIpadsoftware_backup_2026-02-02.zip''\\)\"\"\")",
+      "Bash(cmd /c \"if exist \"\"C:\\\\Users\\\\lucpe\\\\Desktop\\\\interfaceIpadsoftware_backup_2026-02-02.zip\"\" \\(echo ZIP créé avec succès & dir \"\"C:\\\\Users\\\\lucpe\\\\Desktop\\\\interfaceIpadsoftware_backup_2026-02-02.zip\"\"\\) else \\(echo ZIP non créé\\)\")",
+      "Bash(node -c:*)",
+      "Bash(timeout 5 node:*)",
+      "Bash(node -e:*)",
+      "Bash(node --check:*)",
+      "Bash(del temp_script.js)",
+      "Bash(del \"C:\\\\Users\\\\lucpe\\\\Desktop\\\\interfaceIpadsoftware\\\\temp_script.js\")",
+      "Bash(dir \"C:\\\\Users\\\\lucpe\\\\Desktop\\\\interfaceIpadsoftware\\\\public\\\\assets\\\\sounds\"\" 2>nul || echo \"Dossier sounds non trouvé \")",
+      "Bash(where:*)",
+      "Bash(openssl req:*)",
+      "Bash(timeout /t 5)",
+      "Bash(node server/server.js)",
+      "Bash(ipconfig:*)",
+      "Bash(findstr:*)",
+      "Bash(netsh advfirewall firewall show rule:*)",
+      "Bash(netsh advfirewall firewall:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)"
+    ]
+  }
+}

@@ -1,0 +1,281 @@
+/* Notes App - Application de notes */
+
+.notes-app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-modal);
+  background: var(--ios-background);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--duration-slow) var(--spring-ios),
+              opacity var(--duration-slow) var(--ease-ios);
+}
+
+.notes-app.show,
+.notes-app.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Header */
+.notes-app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--status-bar-height) + var(--spacing-sm)) var(--spacing-md) var(--spacing-sm);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid var(--ios-separator);
+}
+
+.notes-app__back {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  color: var(--ios-blue);
+  font-size: 17px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.notes-app__back-icon {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.notes-app__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ios-label);
+}
+
+.notes-app__new {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--ios-blue);
+  color: #FFFFFF;
+  font-size: 24px;
+  font-weight: 300;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--duration-fast) var(--ease-ios);
+}
+
+.notes-app__new:active {
+  transform: scale(0.9);
+}
+
+/* Content */
+.notes-app__content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Notes List */
+.notes-app__list {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  padding: var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  transition: transform var(--duration-normal) var(--ease-ios),
+              opacity var(--duration-normal) var(--ease-ios);
+}
+
+.notes-app__list.hidden {
+  transform: translateX(-100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Note Item */
+.notes-app__item {
+  background: #FFFFFF;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-md);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-ios),
+              box-shadow var(--duration-fast) var(--ease-ios);
+}
+
+.notes-app__item:active {
+  transform: scale(0.98);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.notes-app__item-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ios-label);
+  margin-bottom: var(--spacing-xs);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notes-app__item-preview {
+  font-size: 15px;
+  color: var(--ios-label-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.notes-app__item-date {
+  font-size: 13px;
+  color: var(--ios-label-tertiary);
+  margin-top: var(--spacing-sm);
+}
+
+/* Empty state */
+.notes-app__empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  text-align: center;
+}
+
+.notes-app__empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.5;
+}
+
+.notes-app__empty-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ios-label);
+  margin-bottom: var(--spacing-sm);
+}
+
+.notes-app__empty-hint {
+  font-size: 15px;
+  color: var(--ios-label-secondary);
+}
+
+/* Editor View */
+.notes-app__editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #FFFFFF;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--duration-normal) var(--ease-ios),
+              opacity var(--duration-normal) var(--ease-ios);
+}
+
+.notes-app__editor.active {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.notes-app__editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--ios-separator);
+}
+
+.notes-app__editor-back {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  color: var(--ios-blue);
+  font-size: 17px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.notes-app__editor-back span:first-child {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.notes-app__editor-delete {
+  padding: var(--spacing-sm);
+  font-size: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  opacity: 0.7;
+  transition: opacity var(--duration-fast) var(--ease-ios);
+}
+
+.notes-app__editor-delete:active {
+  opacity: 1;
+}
+
+.notes-app__textarea {
+  flex: 1;
+  padding: var(--spacing-lg);
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--ios-label);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+}
+
+.notes-app__textarea::placeholder {
+  color: var(--ios-label-tertiary);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .notes-app {
+    background: var(--ios-background);
+  }
+
+  .notes-app__header {
+    background: rgba(30, 30, 30, 0.9);
+  }
+
+  .notes-app__item {
+    background: var(--ios-gray-6);
+  }
+
+  .notes-app__editor {
+    background: var(--ios-background);
+  }
+
+  .notes-app__textarea {
+    color: #FFFFFF;
+  }
+}
