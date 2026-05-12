@@ -5,3 +5,7 @@ ssl/
 Thumbs.db
 *.log
 nul
+
+# Vidéos trop volumineuses pour GitHub (>100Mo) - à stocker localement
+public/assets/videos/karaoke/*.mov
+public/assets/videos/karaoke/*.mp4
