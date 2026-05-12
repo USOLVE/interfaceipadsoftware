@@ -1,0 +1,172 @@
+/* Clock App - Application Horloge avec Timer */
+
+.clock-app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, #1c1c1e 0%, #000000 100%);
+  z-index: var(--z-app);
+  display: none;
+  flex-direction: column;
+}
+
+.clock-app.active {
+  display: flex;
+}
+
+/* Header */
+.clock-app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--status-bar-height) + var(--spacing-md)) var(--spacing-md) var(--spacing-md);
+  background: rgba(28, 28, 30, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.clock-app__back {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  background: none;
+  border: none;
+  color: var(--ios-blue);
+  font-size: 17px;
+  cursor: pointer;
+  padding: var(--spacing-sm);
+  margin-left: calc(-1 * var(--spacing-sm));
+}
+
+.clock-app__back-icon {
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.clock-app__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* Timer Container */
+.clock-app__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+}
+
+/* Timer Display */
+.clock-app__timer-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.clock-app__timer-circle {
+  position: relative;
+  width: 280px;
+  height: 280px;
+}
+
+.clock-app__timer-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.clock-app__timer-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 8;
+}
+
+.clock-app__timer-progress {
+  fill: none;
+  stroke: #ff9500;
+  stroke-width: 8;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear, stroke 0.3s ease;
+}
+
+.clock-app__timer-progress.warning {
+  stroke: #ff9500;
+}
+
+.clock-app__timer-progress.danger {
+  stroke: #ff3b30;
+  animation: timerPulseDanger 0.5s ease-in-out infinite;
+}
+
+@keyframes timerPulseDanger {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+.clock-app__timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.clock-app__timer-time {
+  font-size: 64px;
+  font-weight: 200;
+  font-variant-numeric: tabular-nums;
+  color: #FFFFFF;
+  letter-spacing: -2px;
+}
+
+.clock-app__timer-label {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: var(--spacing-xs);
+}
+
+/* Timer States */
+.clock-app__timer-time.warning {
+  color: #ff9500;
+}
+
+.clock-app__timer-time.danger {
+  color: #ff3b30;
+  animation: timerTextPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes timerTextPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Timer Info */
+.clock-app__timer-info {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 14px;
+  margin-top: var(--spacing-xl);
+}
+
+/* Escape Game Branding */
+.clock-app__branding {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.clock-app__branding-text {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}

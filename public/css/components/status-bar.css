@@ -1,0 +1,199 @@
+/* Status Bar - Barre d'état iOS */
+
+.status-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--status-bar-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+  z-index: var(--z-status-bar);
+  font-size: 15px;
+  font-weight: 600;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Sur home screen, status bar est semi-transparent */
+.status-bar.home-style {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Sur lock screen, status bar est transparent */
+.status-bar.lock-style {
+  background: transparent;
+}
+
+/* Left section - Time */
+.status-bar__left {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.status-bar__time {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Timer */
+.status-bar__timer {
+  display: none;
+  font-variant-numeric: tabular-nums;
+  background: rgba(255, 59, 48, 0.9);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  animation: timerPulse 1s ease-in-out infinite;
+}
+
+.status-bar__timer.active {
+  display: inline-block;
+}
+
+.status-bar__timer.warning {
+  background: rgba(255, 149, 0, 0.9);
+}
+
+.status-bar__timer.danger {
+  background: rgba(255, 59, 48, 1);
+  animation: timerPulse 0.5s ease-in-out infinite;
+}
+
+@keyframes timerPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* Hint Button */
+.status-bar__hint-btn {
+  display: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 204, 0, 0.9);
+  border: none;
+  color: #000;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-ios);
+}
+
+.status-bar__hint-btn.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-bar__hint-btn:active {
+  transform: scale(0.9);
+}
+
+/* Center section - Optional (pour certains modèles iPad) */
+.status-bar__center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Right section - Indicators */
+.status-bar__right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+/* Signal strength */
+.status-bar__signal {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.status-bar__signal-bar {
+  width: 4px;
+  background: #FFFFFF;
+  border-radius: 1px;
+}
+
+.status-bar__signal-bar:nth-child(1) { height: 5px; }
+.status-bar__signal-bar:nth-child(2) { height: 8px; }
+.status-bar__signal-bar:nth-child(3) { height: 11px; }
+.status-bar__signal-bar:nth-child(4) { height: 14px; }
+
+/* WiFi icon */
+.status-bar__wifi {
+  display: flex;
+  align-items: flex-end;
+}
+
+.status-bar__wifi::before {
+  content: '';
+  width: 15px;
+  height: 11px;
+  background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 20c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-7-9c5.52 0 10 4.48 10 10h2c0-6.63-5.37-12-12-12v2zm6 3c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7v2z"/></svg>') center/contain no-repeat;
+}
+
+/* Battery */
+.status-bar__battery {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.status-bar__battery-level {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+.status-bar__battery-icon {
+  position: relative;
+  width: 24px;
+  height: 11px;
+  border: 1.5px solid #FFFFFF;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  padding: 1.5px;
+}
+
+.status-bar__battery-icon::after {
+  content: '';
+  position: absolute;
+  right: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 5px;
+  background: #FFFFFF;
+  border-radius: 0 1px 1px 0;
+}
+
+.status-bar__battery-fill {
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 1.5px;
+  transition: width 0.3s ease;
+}
+
+/* Battery colors */
+.status-bar__battery--charging .status-bar__battery-fill {
+  background: var(--ios-green);
+}
+
+.status-bar__battery--low .status-bar__battery-fill {
+  background: var(--ios-red);
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .status-bar {
+    /* Reste blanc pour bon contraste sur wallpapers sombres */
+  }
+}

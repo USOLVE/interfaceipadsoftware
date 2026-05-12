@@ -1,0 +1,263 @@
+/* Photos App - Galerie photos avec caméra */
+
+.photos-app {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-modal);
+  background: var(--ios-background);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--duration-slow) var(--spring-ios),
+              opacity var(--duration-slow) var(--ease-ios);
+}
+
+.photos-app.show,
+.photos-app.active {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Header */
+.photos-app__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: calc(var(--status-bar-height) + var(--spacing-sm)) var(--spacing-md) var(--spacing-sm);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: 1px solid var(--ios-separator);
+}
+
+.photos-app__back {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  padding: var(--spacing-sm);
+  color: var(--ios-blue);
+  font-size: 17px;
+  cursor: pointer;
+  background: none;
+  border: none;
+}
+
+.photos-app__back-icon {
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.photos-app__title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ios-label);
+}
+
+.photos-app__camera-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ios-blue);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--duration-fast) var(--ease-ios);
+}
+
+.photos-app__camera-btn:active {
+  transform: scale(0.9);
+}
+
+/* Gallery */
+.photos-app__gallery {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--spacing-sm);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  align-content: start;
+}
+
+.photos-app__item {
+  aspect-ratio: 1;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.photos-app__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-fast) var(--ease-ios);
+}
+
+.photos-app__item:active img {
+  transform: scale(1.05);
+}
+
+/* Empty state */
+.photos-app__empty {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-xl);
+  text-align: center;
+  min-height: 300px;
+}
+
+.photos-app__empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--spacing-lg);
+  opacity: 0.5;
+}
+
+.photos-app__empty-text {
+  font-size: 17px;
+  color: var(--ios-label-secondary);
+}
+
+/* Photo Viewer */
+.photos-app__viewer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-ios);
+  z-index: 10;
+}
+
+.photos-app__viewer.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.photos-app__viewer-close {
+  position: absolute;
+  top: calc(var(--status-bar-height) + var(--spacing-md));
+  right: var(--spacing-md);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #FFFFFF;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 11;
+}
+
+.photos-app__viewer-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Camera View */
+.photos-app__camera {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #000000;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-ios);
+  z-index: 20;
+}
+
+.photos-app__camera.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.photos-app__camera-preview {
+  flex: 1;
+  width: 100%;
+  object-fit: cover;
+}
+
+.photos-app__camera-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  padding-bottom: calc(var(--spacing-xl) + var(--home-indicator-height));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+
+.photos-app__camera-cancel {
+  background: none;
+  border: none;
+  color: #FFFFFF;
+  font-size: 17px;
+  cursor: pointer;
+  padding: var(--spacing-md);
+}
+
+.photos-app__camera-capture {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 4px solid rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-ios);
+}
+
+.photos-app__camera-capture:active {
+  transform: scale(0.9);
+}
+
+.photos-app__camera-switch {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Dark mode */
+@media (prefers-color-scheme: dark) {
+  .photos-app {
+    background: var(--ios-background);
+  }
+
+  .photos-app__header {
+    background: rgba(30, 30, 30, 0.9);
+  }
+}

@@ -1,0 +1,126 @@
+/* Blur Effects - Effets de flou iOS */
+
+/* Base blur classes */
+.blur {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.blur-strong {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+}
+
+.blur-light {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255, 255, 255, 0.72);
+}
+
+.blur-dark {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.blur-ultra-light {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.blur-ultra-dark {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Fallback for browsers without backdrop-filter support */
+@supports not (backdrop-filter: blur(20px)) {
+  .blur,
+  .blur-strong,
+  .blur-light {
+    background-color: rgba(255, 255, 255, 0.95);
+  }
+
+  .blur-dark {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+
+  .blur-ultra-light {
+    background-color: rgba(255, 255, 255, 0.98);
+  }
+
+  .blur-ultra-dark {
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+}
+
+/* Glass morphism effect */
+.glass {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.glass-dark {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* iOS Notification blur */
+.notification-blur {
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  background-color: rgba(255, 255, 255, 0.85);
+}
+
+@media (prefers-color-scheme: dark) {
+  .notification-blur {
+    background-color: rgba(50, 50, 50, 0.85);
+  }
+}
+
+/* iOS Control Center blur */
+.control-center-blur {
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (prefers-color-scheme: dark) {
+  .control-center-blur {
+    background-color: rgba(20, 20, 20, 0.8);
+  }
+}
+
+/* iOS Dock blur */
+.dock-blur {
+  backdrop-filter: saturate(180%) blur(40px);
+  -webkit-backdrop-filter: saturate(180%) blur(40px);
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+@media (prefers-color-scheme: dark) {
+  .dock-blur {
+    background-color: rgba(50, 50, 50, 0.6);
+  }
+}
+
+/* iOS App background blur (ouverte par dessus home) */
+.app-blur {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+@media (prefers-color-scheme: dark) {
+  .app-blur {
+    background-color: rgba(0, 0, 0, 0.95);
+  }
+}

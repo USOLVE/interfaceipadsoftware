@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panneau de Contrôle - Interface iPad Escape Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .header h1 {
+      color: #667eea;
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .status {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .status-card {
+      flex: 1;
+      min-width: 200px;
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .status-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .status-card h3 {
+      font-size: 14px;
+      color: #999;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .status-value {
+      font-size: 36px;
+      font-weight: bold;
+      color: #667eea;
+    }
+
+    .status-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-left: 10px;
+      animation: pulse 2s infinite;
+    }
+
+    .status-indicator.online {
+      background: #34C759;
+      box-shadow: 0 0 10px #34C759;
+    }
+
+    .status-indicator.offline {
+      background: #FF3B30;
+      box-shadow: 0 0 10px #FF3B30;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .card h2 {
+      color: #667eea;
+      font-size: 20px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h2::before {
+      content: '';
+      width: 4px;
+      height: 20px;
+      background: #667eea;
+      border-radius: 2px;
+    }
+
+    .button {
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .button.primary {
+      background: #667eea;
+      color: white;
+    }
+
+    .button.success {
+      background: #34C759;
+      color: white;
+    }
+
+    .button.danger {
+      background: #FF3B30;
+      color: white;
+    }
+
+    .button.info {
+      background: #007AFF;
+      color: white;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: #666;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .log {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 200px;
+      overflow-y: auto;
+      color: #333;
+    }
+
+    .log-entry {
+      padding: 5px 0;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .log-entry.success {
+      color: #34C759;
+    }
+
+    .log-entry.error {
+      color: #FF3B30;
+    }
+
+    .progress {
+      margin-top: 20px;
+    }
+
+    .progress-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 8px;
+      background: #f8f8f8;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .progress-item.completed {
+      background: #e8f5e9;
+    }
+
+    .progress-check {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #34C759;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      font-size: 16px;
+    }
+
+    .progress-check.pending {
+      background: #ccc;
+    }
+
+    .progress-text {
+      flex: 1;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .iframe-container {
+      width: 100%;
+      height: 600px;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+
+    .iframe-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .footer {
+      text-align: center;
+      color: white;
+      margin-top: 30px;
+      padding: 20px;
+      font-size: 14px;
+    }
+
+    .response {
+      background: #f5f5f5;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      display: none;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    .response.show {
+      display: block;
+    }
+
+    /* Hint Alert Notification */
+    .hint-alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+      color: white;
+      padding: 20px 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(255, 107, 107, 0.4);
+      z-index: 9999;
+      display: none;
+      animation: slideIn 0.5s ease;
+      max-width: 400px;
+    }
+
+    .hint-alert.show {
+      display: block;
+    }
+
+    .hint-alert h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hint-alert p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .hint-alert .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 20px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    .hint-alert .close-btn:hover {
+      opacity: 1;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Hint counter */
+    .hint-counter {
+      background: #ff6b6b;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    /* Karaoke panel */
+    .karaoke-panel {
+      background: linear-gradient(135deg, #1a0a2e 0%, #2d1b4e 100%);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 40px rgba(147,51,234,0.3);
+      border: 1px solid rgba(192,132,252,0.2);
+    }
+
+    .karaoke-panel h2 {
+      color: #c084fc;
+      font-size: 20px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .karaoke-status-row {
+      display: flex;
+      gap: 20px;
+      align-items: stretch;
+      flex-wrap: wrap;
+    }
+
+    .karaoke-now-playing {
+      flex: 1;
+      min-width: 200px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid rgba(192,132,252,0.15);
+    }
+
+    .karaoke-now-playing__label {
+      font-size: 11px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .karaoke-now-playing__song {
+      font-size: 18px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .karaoke-now-playing__artist {
+      font-size: 14px;
+      color: #c084fc;
+    }
+
+    .karaoke-now-playing__idle {
+      font-size: 16px;
+      color: #6b7280;
+      font-style: italic;
+    }
+
+    .karaoke-actuator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 20px 30px;
+      border: 1px solid rgba(192,132,252,0.15);
+      min-width: 140px;
+    }
+
+    .karaoke-actuator__label {
+      font-size: 11px;
+      color: #9ca3af;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+    }
+
+    .karaoke-actuator__number {
+      font-size: 72px;
+      font-weight: 900;
+      line-height: 1;
+      color: #6b7280;
+      transition: all 0.4s ease;
+    }
+
+    .karaoke-actuator__number.active {
+      color: #e879f9;
+      text-shadow: 0 0 30px rgba(232,121,249,0.8), 0 0 60px rgba(232,121,249,0.4);
+    }
+
+    .karaoke-log {
+      flex: 1;
+      min-width: 200px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 12px;
+      padding: 15px;
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 130px;
+      overflow-y: auto;
+      border: 1px solid rgba(192,132,252,0.1);
+    }
+
+    .karaoke-log-entry {
+      color: #9ca3af;
+      padding: 3px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .karaoke-log-entry.playing {
+      color: #e879f9;
+    }
+
+    .karaoke-log-entry.stopped {
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <!-- Hint Alert Notification -->
+  <div class="hint-alert" id="hintAlert">
+    <button class="close-btn" onclick="closeHintAlert()">×</button>
+    <h3>🆘 Demande d'indice !</h3>
+    <p id="hintAlertMessage">Les joueurs demandent de l'aide</p>
+    <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;" id="hintAlertTime"></p>
+  </div>
+
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <h1>🎮 Interface iPad - Escape Game</h1>
+      <p>Panneau de contrôle et tests</p>
+      <div id="hintCounterContainer" style="margin-top: 10px; display: none;">
+        <span style="color: #666;">Demandes d'indices : </span>
+        <span class="hint-counter" id="hintCounter">0</span>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="status">
+      <div class="status-card">
+        <h3>Serveur</h3>
+        <div class="status-value">
+          <span id="serverStatus">Vérification...</span>
+          <span class="status-indicator" id="serverIndicator"></span>
+        </div>
+      </div>
+      <div class="status-card">
+        <h3>Messages</h3>
+        <div class="status-value" id="messagesCount">0</div>
+      </div>
+      <div class="status-card">
+        <h3>Non lus</h3>
+        <div class="status-value" id="unreadCount">0</div>
+      </div>
+      <div class="status-card">
+        <h3>Appel en cours</h3>
+        <div class="status-value" id="callStatus">Non</div>
+      </div>
+    </div>
+
+    <!-- Karaoke Panel -->
+    <div class="karaoke-panel">
+      <h2>🎤 Karaoké en cours</h2>
+      <div class="karaoke-status-row">
+        <div class="karaoke-now-playing" id="karaokeNowPlayingPanel">
+          <div class="karaoke-now-playing__label">Chanson</div>
+          <div class="karaoke-now-playing__idle" id="karaokeIdleText">Aucune chanson en cours</div>
+          <div class="karaoke-now-playing__song" id="karaokeSongTitle" style="display:none;"></div>
+          <div class="karaoke-now-playing__artist" id="karaokeSongArtist" style="display:none;"></div>
+        </div>
+        <div class="karaoke-actuator">
+          <div class="karaoke-actuator__label">Actionneur</div>
+          <div class="karaoke-actuator__number" id="karaokeActuatorNumber">—</div>
+        </div>
+        <div class="karaoke-log" id="karaokeLog">
+          <div class="karaoke-log-entry">En attente...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid">
+      <!-- Quick Links -->
+      <div class="card">
+        <h2>🔗 Accès rapides</h2>
+        <button class="button primary" onclick="openInterface()">
+          📱 Ouvrir l'interface iPad
+        </button>
+        <button class="button info" onclick="openDocs()">
+          📖 Documentation README
+        </button>
+        <button class="button success" onclick="refreshStatus()">
+          🔄 Rafraîchir le statut
+        </button>
+      </div>
+
+      <!-- Send Message -->
+      <div class="card">
+        <h2>💬 Envoyer un message</h2>
+        <div class="form-group">
+          <label>Expéditeur</label>
+          <input type="text" id="msgSender" value="Game Master" placeholder="Nom de l'expéditeur">
+        </div>
+        <div class="form-group">
+          <label>Message</label>
+          <textarea id="msgText" placeholder="Votre indice...">Bienvenue dans l'escape game ! Cherchez l'indice sous le bureau...</textarea>
+        </div>
+        <button class="button success" onclick="sendMessage()">
+          📤 Envoyer le message
+        </button>
+        <div class="response" id="msgResponse"></div>
+      </div>
+
+      <!-- Send Image -->
+      <div class="card">
+        <h2>🖼️ Envoyer une image</h2>
+        <div class="form-group">
+          <label>Expéditeur</label>
+          <input type="text" id="imgSender" value="Agent Secret" placeholder="Nom de l'expéditeur">
+        </div>
+        <div class="form-group">
+          <label>URL de l'image</label>
+          <input type="text" id="imgUrl" value="https://picsum.photos/600/400" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>Légende</label>
+          <input type="text" id="imgCaption" value="Observez cette image attentivement..." placeholder="Légende (optionnel)">
+        </div>
+        <button class="button success" onclick="sendImage()">
+          📤 Envoyer l'image
+        </button>
+        <div class="response" id="imgResponse"></div>
+      </div>
+
+      <!-- Trigger Call -->
+      <div class="card">
+        <h2>📞 Déclencher un appel</h2>
+        <div class="form-group">
+          <label>Appelant</label>
+          <input type="text" id="callName" value="Directeur" placeholder="Nom de l'appelant">
+        </div>
+        <div class="form-group">
+          <label>Numéro</label>
+          <input type="text" id="callPhone" value="+33 6 12 34 56 78" placeholder="Numéro de téléphone">
+        </div>
+        <button class="button info" onclick="triggerCall()">
+          📱 Déclencher l'appel
+        </button>
+        <div class="response" id="callResponse"></div>
+      </div>
+
+      <!-- Timer -->
+      <div class="card">
+        <h2>⏱️ Minuteur (App Horloge)</h2>
+        <div class="form-group">
+          <label>Durée initiale (en minutes)</label>
+          <input type="number" id="timerMinutes" value="60" min="1" max="180" placeholder="Minutes">
+        </div>
+        <button class="button success" onclick="startTimer()">
+          ▶️ Démarrer le timer
+        </button>
+        <button class="button danger" onclick="stopTimer()">
+          ⏹️ Arrêter / Reset
+        </button>
+        <hr style="margin: 15px 0; border: none; border-top: 1px solid #eee;">
+        <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Ajuster le temps en cours :</p>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <button class="button" style="flex: 1; min-width: 70px; background: #FF3B30; color: white;" onclick="adjustTimer(-60)">
+            -1 min
+          </button>
+          <button class="button" style="flex: 1; min-width: 70px; background: #FF6B6B; color: white;" onclick="adjustTimer(-10)">
+            -10 sec
+          </button>
+          <button class="button" style="flex: 1; min-width: 70px; background: #5CB85C; color: white;" onclick="adjustTimer(10)">
+            +10 sec
+          </button>
+          <button class="button" style="flex: 1; min-width: 70px; background: #34C759; color: white;" onclick="adjustTimer(60)">
+            +1 min
+          </button>
+        </div>
+        <button class="button info" style="margin-top: 10px;" onclick="pauseTimer()">
+          ⏸️ Pause
+        </button>
+        <div class="response" id="timerResponse"></div>
+      </div>
+
+      <!-- Hint & Fullscreen -->
+      <div class="card">
+        <h2>🎮 Contrôles du jeu</h2>
+        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Bouton demande d'indice</p>
+        <button class="button success" onclick="toggleHint(true)">
+          ✅ Activer bouton indice
+        </button>
+        <button class="button danger" onclick="toggleHint(false)">
+          ❌ Désactiver bouton indice
+        </button>
+        <hr style="margin: 20px 0; border: none; border-top: 1px solid #eee;">
+        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">Mode plein écran</p>
+        <button class="button info" onclick="toggleFullscreen(true)">
+          🖥️ Activer plein écran
+        </button>
+        <button class="button" style="background: #666; color: white;" onclick="toggleFullscreen(false)">
+          ↙️ Quitter plein écran
+        </button>
+        <div class="response" id="controlResponse"></div>
+      </div>
+
+      <!-- Add Photo -->
+      <div class="card">
+        <h2>📷 Ajouter une photo</h2>
+        <div class="form-group">
+          <label>URL de la photo</label>
+          <input type="text" id="photoUrl" value="/assets/images/contact-photos/gm.jpg" placeholder="URL de l'image">
+        </div>
+        <button class="button success" onclick="addPhoto()">
+          📤 Ajouter à la galerie
+        </button>
+        <div class="response" id="photoResponse"></div>
+      </div>
+
+      <!-- Reset -->
+      <div class="card">
+        <h2>🔄 Actions</h2>
+        <button class="button danger" onclick="resetAll()">
+          🗑️ Reset (effacer tout)
+        </button>
+        <button class="button info" onclick="checkStatus()">
+          📊 Vérifier le statut API
+        </button>
+        <div class="log" id="actionLog">
+          <div class="log-entry">En attente d'actions...</div>
+        </div>
+      </div>
+
+      <!-- Progress -->
+      <div class="card">
+        <h2>✅ Avancement du projet</h2>
+        <div class="progress">
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Backend Node.js + API REST</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">WebSocket temps réel</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Interface iPadOS (CSS + HTML)</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Lock Screen avec slide to unlock</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Home Screen avec app icons</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Messages App (texte, images, vidéos)</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Call Screen (appels entrants)</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Système de notifications</div>
+          </div>
+          <div class="progress-item completed">
+            <div class="progress-check">✓</div>
+            <div class="progress-text">Documentation complète</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="card">
+      <h2>👀 Prévisualisation de l'interface</h2>
+      <div class="iframe-container">
+        <iframe src="http://localhost:3000" id="preview"></iframe>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>Interface iPad pour Escape Game - Contrôlée via Node-RED</p>
+      <p>Serveur : http://localhost:3000 | Documentation : README.md</p>
+    </div>
+  </div>
+
+  <!-- Socket.IO Client -->
+  <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+
+  <script>
+    const API_URL = 'http://localhost:3000/api';
+    let hintCount = 0;
+    let socket = null;
+
+    // Check server status on load
+    window.addEventListener('load', () => {
+      checkStatus();
+      setInterval(refreshStatus, 5000); // Refresh every 5 seconds
+      connectWebSocket();
+    });
+
+    // WebSocket connection for real-time events
+    function connectWebSocket() {
+      try {
+        socket = io('http://localhost:3000');
+
+        socket.on('connect', () => {
+          console.log('[WebSocket] Connected to server');
+          addLog('✓ WebSocket connecté', 'success');
+        });
+
+        socket.on('disconnect', () => {
+          console.log('[WebSocket] Disconnected');
+          addLog('✗ WebSocket déconnecté', 'error');
+        });
+
+        // Listen for hint requests from players
+        socket.on('hint_requested', (data) => {
+          console.log('[WebSocket] Hint requested:', data);
+          showHintAlert(data);
+        });
+
+        // Listen for timer ended
+        socket.on('timer_ended', () => {
+          console.log('[WebSocket] Timer ended!');
+          addLog('⏰ TIMER TERMINÉ !', 'error');
+          alert('⏰ Le temps est écoulé !');
+        });
+
+        // Karaoke events
+        socket.on('karaoke_play', (data) => {
+          console.log('[WebSocket] Karaoke playing:', data);
+          document.getElementById('karaokeIdleText').style.display = 'none';
+          document.getElementById('karaokeSongTitle').style.display = 'block';
+          document.getElementById('karaokeSongArtist').style.display = 'block';
+          document.getElementById('karaokeSongTitle').textContent = data.title;
+          document.getElementById('karaokeSongArtist').textContent = data.artist;
+          const num = document.getElementById('karaokeActuatorNumber');
+          num.textContent = data.actuator;
+          num.classList.add('active');
+          addKaraokeLog(`▶ ${data.artist} – ${data.title} (Actionneur #${data.actuator})`, 'playing');
+          addLog(`🎤 Karaoké: ${data.artist} – ${data.title}`, 'success');
+        });
+
+        socket.on('karaoke_stop', () => {
+          console.log('[WebSocket] Karaoke stopped');
+          document.getElementById('karaokeIdleText').style.display = 'block';
+          document.getElementById('karaokeSongTitle').style.display = 'none';
+          document.getElementById('karaokeSongArtist').style.display = 'none';
+          const num = document.getElementById('karaokeActuatorNumber');
+          num.textContent = '—';
+          num.classList.remove('active');
+          addKaraokeLog('■ Lecture arrêtée', 'stopped');
+        });
+
+      } catch (error) {
+        console.error('WebSocket connection failed:', error);
+      }
+    }
+
+    // Show hint alert notification
+    function showHintAlert(data) {
+      hintCount++;
+
+      const alert = document.getElementById('hintAlert');
+      const message = document.getElementById('hintAlertMessage');
+      const time = document.getElementById('hintAlertTime');
+      const counter = document.getElementById('hintCounter');
+      const counterContainer = document.getElementById('hintCounterContainer');
+
+      // Update message
+      if (data && data.message) {
+        message.textContent = data.message;
+      } else {
+        message.textContent = 'Les joueurs demandent de l\'aide !';
+      }
+
+      // Update time
+      const now = new Date();
+      time.textContent = `Reçu à ${now.toLocaleTimeString()}`;
+
+      // Show alert
+      alert.classList.add('show');
+
+      // Update counter
+      counter.textContent = hintCount;
+      counterContainer.style.display = 'block';
+
+      // Add to log
+      addLog(`🆘 DEMANDE D'INDICE #${hintCount}`, 'error');
+
+      // Play alert sound
+      try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+        oscillator.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.3);
+      } catch (e) {}
+
+      // Auto-hide after 30 seconds
+      setTimeout(() => {
+        alert.classList.remove('show');
+      }, 30000);
+    }
+
+    function closeHintAlert() {
+      document.getElementById('hintAlert').classList.remove('show');
+    }
+
+    function addKaraokeLog(message, type) {
+      const log = document.getElementById('karaokeLog');
+      const entry = document.createElement('div');
+      entry.className = `karaoke-log-entry ${type}`;
+      const now = new Date().toLocaleTimeString();
+      entry.textContent = `[${now}] ${message}`;
+      log.insertBefore(entry, log.firstChild);
+    }
+
+    async function checkStatus() {
+      try {
+        const response = await fetch(`${API_URL}/status`);
+        const data = await response.json();
+
+        if (data.success) {
+          document.getElementById('serverStatus').textContent = 'En ligne';
+          document.getElementById('serverIndicator').className = 'status-indicator online';
+          document.getElementById('messagesCount').textContent = data.data.messagesCount;
+          document.getElementById('unreadCount').textContent = data.data.unreadCount;
+          document.getElementById('callStatus').textContent = data.data.hasIncomingCall ? 'Oui' : 'Non';
+
+          addLog('✓ Serveur connecté', 'success');
+        }
+      } catch (error) {
+        document.getElementById('serverStatus').textContent = 'Hors ligne';
+        document.getElementById('serverIndicator').className = 'status-indicator offline';
+        addLog('✗ Serveur non accessible', 'error');
+      }
+    }
+
+    async function refreshStatus() {
+      await checkStatus();
+    }
+
+    async function sendMessage() {
+      const sender = document.getElementById('msgSender').value;
+      const message = document.getElementById('msgText').value;
+      const responseEl = document.getElementById('msgResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/message`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sender, message })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog(`✓ Message envoyé par ${sender}`, 'success');
+          await checkStatus();
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur envoi message', 'error');
+      }
+    }
+
+    async function sendImage() {
+      const sender = document.getElementById('imgSender').value;
+      const imageUrl = document.getElementById('imgUrl').value;
+      const caption = document.getElementById('imgCaption').value;
+      const responseEl = document.getElementById('imgResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/image`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sender, imageUrl, caption })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog(`✓ Image envoyée par ${sender}`, 'success');
+          await checkStatus();
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur envoi image', 'error');
+      }
+    }
+
+    async function triggerCall() {
+      const caller = document.getElementById('callName').value;
+      const phoneNumber = document.getElementById('callPhone').value;
+      const responseEl = document.getElementById('callResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/call`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ caller, phoneNumber })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog(`✓ Appel déclenché de ${caller}`, 'success');
+          await checkStatus();
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur déclenchement appel', 'error');
+      }
+    }
+
+    async function resetAll() {
+      if (!confirm('Êtes-vous sûr de vouloir effacer tous les messages ?')) {
+        return;
+      }
+
+      try {
+        const response = await fetch(`${API_URL}/reset`, {
+          method: 'POST'
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          addLog('✓ Reset effectué', 'success');
+          await checkStatus();
+        }
+      } catch (error) {
+        addLog('✗ Erreur reset', 'error');
+      }
+    }
+
+    function openInterface() {
+      window.open('http://localhost:3000', '_blank');
+    }
+
+    function openDocs() {
+      window.open('README.md', '_blank');
+    }
+
+    function addLog(message, type = '') {
+      const log = document.getElementById('actionLog');
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      log.insertBefore(entry, log.firstChild);
+
+      // Keep only last 10 entries
+      while (log.children.length > 10) {
+        log.removeChild(log.lastChild);
+      }
+    }
+
+    // Timer functions
+    async function startTimer() {
+      const minutes = document.getElementById('timerMinutes').value;
+      const duration = parseInt(minutes) * 60; // Convert to seconds
+      const responseEl = document.getElementById('timerResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/timer/start`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ duration })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog(`✓ Timer démarré: ${minutes} minutes`, 'success');
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur démarrage timer', 'error');
+      }
+    }
+
+    async function stopTimer() {
+      const responseEl = document.getElementById('timerResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/timer/stop`, {
+          method: 'POST'
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog('✓ Timer arrêté/reset', 'success');
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur arrêt timer', 'error');
+      }
+    }
+
+    async function adjustTimer(seconds) {
+      const responseEl = document.getElementById('timerResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/timer/adjust`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ seconds })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          const sign = seconds > 0 ? '+' : '';
+          addLog(`✓ Timer ajusté: ${sign}${seconds} sec`, 'success');
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur ajustement timer', 'error');
+      }
+    }
+
+    async function pauseTimer() {
+      const responseEl = document.getElementById('timerResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/timer/pause`, {
+          method: 'POST'
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog('✓ Timer en pause', 'success');
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur pause timer', 'error');
+      }
+    }
+
+    // Hint toggle
+    async function toggleHint(enabled) {
+      const responseEl = document.getElementById('controlResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/hint/toggle`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ enabled })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog(`✓ Bouton indice ${enabled ? 'activé' : 'désactivé'}`, 'success');
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur toggle hint', 'error');
+      }
+    }
+
+    // Fullscreen toggle
+    async function toggleFullscreen(enabled) {
+      const responseEl = document.getElementById('controlResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/fullscreen`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ enabled })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog(`✓ Plein écran ${enabled ? 'activé' : 'désactivé'}`, 'success');
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur fullscreen', 'error');
+      }
+    }
+
+    // Add photo
+    async function addPhoto() {
+      const url = document.getElementById('photoUrl').value;
+      const responseEl = document.getElementById('photoResponse');
+
+      try {
+        const response = await fetch(`${API_URL}/photo`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+
+        const data = await response.json();
+        responseEl.textContent = JSON.stringify(data, null, 2);
+        responseEl.classList.add('show');
+
+        if (data.success) {
+          addLog('✓ Photo ajoutée à la galerie', 'success');
+        }
+      } catch (error) {
+        responseEl.textContent = 'Erreur: ' + error.message;
+        responseEl.classList.add('show');
+        addLog('✗ Erreur ajout photo', 'error');
+      }
+    }
+  </script>
+</body>
+</html>

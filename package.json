@@ -1,0 +1,27 @@
+{
+  "name": "ipad-escape-game-interface",
+  "version": "1.0.0",
+  "description": "Interface iPad pour escape game contrôlée via Node-RED",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js"
+  },
+  "keywords": [
+    "escape-game",
+    "ipad",
+    "ios",
+    "node-red",
+    "websocket"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.1",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
