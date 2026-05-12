@@ -40,13 +40,6 @@
   overflow: hidden;
 }
 
-.karaoke-player-area video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
 
 /* Back button */
 .karaoke-back-btn {
@@ -95,6 +88,181 @@
   font-size: 13px;
   font-weight: 500;
   letter-spacing: 1px;
+}
+
+/* ── MAIN CONTENT WRAPPER ── */
+.karaoke-main {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
+.karaoke-main.show {
+  display: flex;
+}
+
+/* ── PIN LOCK SCREEN ── */
+.karaoke-pin-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  background: linear-gradient(160deg, #1a0a2e 0%, #0d0d0d 100%);
+  padding: 40px 20px 30px;
+  gap: 20px;
+}
+
+.karaoke-pin-screen.show {
+  display: flex;
+}
+
+.karaoke-pin__logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.karaoke-pin__logo-text {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #c084fc, #e879f9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
+}
+
+.karaoke-pin__logo-sub {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-top: 6px;
+}
+
+.karaoke-pin__dots {
+  display: flex;
+  gap: 16px;
+  margin: 10px 0;
+}
+
+.karaoke-pin__dot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #6b7280;
+  transition: all 0.15s;
+}
+
+.karaoke-pin__dot.filled {
+  background: #c084fc;
+  border-color: #c084fc;
+}
+
+.karaoke-pin__error {
+  color: #f87171;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  height: 20px;
+}
+
+.karaoke-pin__error.show {
+  opacity: 1;
+}
+
+.karaoke-pin__keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.karaoke-pin__key {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-size: 24px;
+  font-weight: 400;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.karaoke-pin__key:active {
+  background: rgba(192,132,252,0.3);
+}
+
+.karaoke-pin__key--empty {
+  background: transparent;
+  cursor: default;
+}
+
+.karaoke-pin__key--delete {
+  background: rgba(255,255,255,0.05);
+  font-size: 20px;
+}
+
+.karaoke-pin__cancel {
+  background: none;
+  border: none;
+  color: #c084fc;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 10px 20px;
+}
+
+/* ── FULLSCREEN VIDEO PLAYER ── */
+.karaoke-fullscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: #000;
+  display: none;
+  flex-direction: column;
+}
+
+.karaoke-fullscreen.show {
+  display: flex;
+}
+
+.karaoke-fullscreen video {
+  flex: 1;
+  width: 100%;
+  object-fit: contain;
+}
+
+.karaoke-fullscreen__bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 50px 16px 16px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.75) 0%, transparent 100%);
+}
+
+.karaoke-fullscreen__title {
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.karaoke-fullscreen__stop {
+  background: rgba(220, 38, 38, 0.85);
+  border: none;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
 }
 
 /* ── BOTTOM DARK SECTION ── */

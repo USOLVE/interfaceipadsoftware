@@ -2,6 +2,9 @@
 
 const KaraokeApp = {
 
+  PIN_CODE: '1234', // ← Modifier ce code ici
+  unlocked: false,
+
   songs: [
     {
       id: 'gims-ciel',
@@ -45,10 +48,58 @@ const KaraokeApp = {
     }
   ],
 
+  pinEntry: '',
+
   init() {
     document.getElementById('karaokeBackBtn').addEventListener('click', () => {
       stateManager.changeScreen('home');
     });
+
+    document.getElementById('karaokePinKeypad').addEventListener('click', (e) => {
+      const key = e.target.dataset.key;
+      if (!key) return;
+      if (key === 'delete') {
+        this.pinEntry = this.pinEntry.slice(0, -1);
+      } else {
+        this.pinEntry += key;
+        if (this.pinEntry.length === 4) {
+          this.validatePin();
+        }
+      }
+      this.updatePinDots();
+    });
+
+    document.getElementById('karaokePinCancel').addEventListener('click', () => {
+      stateManager.changeScreen('home');
+    });
+
+    document.getElementById('karaokeStopBtn').addEventListener('click', () => {
+      this.stopVideo();
+    });
+  },
+
+  updatePinDots() {
+    const dots = document.querySelectorAll('.karaoke-pin__dot');
+    dots.forEach((dot, i) => {
+      dot.classList.toggle('filled', i < this.pinEntry.length);
+    });
+  },
+
+  validatePin() {
+    if (this.pinEntry === this.PIN_CODE) {
+      this.unlocked = true;
+      document.getElementById('karaokePinScreen').classList.remove('show');
+      document.getElementById('karaokeMainContent').classList.add('show');
+    } else {
+      document.getElementById('karaokePinError').classList.add('show');
+      setTimeout(() => {
+        document.getElementById('karaokePinError').classList.remove('show');
+        this.pinEntry = '';
+        this.updatePinDots();
+      }, 1000);
+    }
+    this.pinEntry = '';
+    this.updatePinDots();
   },
 
   renderSongs() {
@@ -76,15 +127,15 @@ const KaraokeApp = {
   },
 
   playSong(song) {
-    const video = document.getElementById('karaokeVideo');
-    const placeholder = document.getElementById('karaokeLogoPlaceholder');
+    const player = document.getElementById('karaokeFullscreen');
+    const video = document.getElementById('karaokeFullVideo');
+    const title = document.getElementById('karaokeFullTitle');
 
+    title.textContent = `${song.artist} – ${song.title}`;
     video.src = song.video;
-    video.style.display = 'block';
-    placeholder.style.display = 'none';
+    player.classList.add('show');
     video.play().catch(() => {});
 
-    // Notify server → game master
     if (wsClient && wsClient.socket) {
       wsClient.socket.emit('karaoke_play', {
         id: song.id,
@@ -95,13 +146,12 @@ const KaraokeApp = {
     }
   },
 
-  closePlayer() {
-    const video = document.getElementById('karaokeVideo');
-    const placeholder = document.getElementById('karaokeLogoPlaceholder');
+  stopVideo() {
+    const player = document.getElementById('karaokeFullscreen');
+    const video = document.getElementById('karaokeFullVideo');
     video.pause();
     video.src = '';
-    video.style.display = 'none';
-    placeholder.style.display = 'flex';
+    player.classList.remove('show');
 
     if (wsClient && wsClient.socket) {
       wsClient.socket.emit('karaoke_stop');
@@ -109,12 +159,24 @@ const KaraokeApp = {
   },
 
   open() {
+    this.pinEntry = '';
+    this.updatePinDots();
+    document.getElementById('karaokePinError').classList.remove('show');
+
+    if (this.unlocked) {
+      document.getElementById('karaokePinScreen').classList.remove('show');
+      document.getElementById('karaokeMainContent').classList.add('show');
+    } else {
+      document.getElementById('karaokePinScreen').classList.add('show');
+      document.getElementById('karaokeMainContent').classList.remove('show');
+    }
+
     this.renderSongs();
     document.getElementById('karaokeApp').classList.add('show');
   },
 
   close() {
-    this.closePlayer();
+    this.stopVideo();
     document.getElementById('karaokeApp').classList.remove('show');
   }
 };

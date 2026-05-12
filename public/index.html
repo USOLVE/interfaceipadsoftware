@@ -329,61 +329,94 @@
     <!-- Karaoke App -->
     <div class="karaoke-app" id="karaokeApp">
 
-      <!-- Top player area (violet gradient) -->
-      <div class="karaoke-player-area" id="karaokePlayerArea">
-        <button class="karaoke-back-btn" id="karaokeBackBtn">
-          <span class="karaoke-back-btn__icon">‹</span>
-          <span>Accueil</span>
-        </button>
-        <video id="karaokeVideo" playsinline controls style="display:none; width:100%; height:100%; object-fit:cover;"></video>
-        <div class="karaoke-logo-placeholder" id="karaokeLogoPlaceholder">
-          <div class="karaoke-logo-placeholder__icon">🎤</div>
-          <div class="karaoke-logo-placeholder__text">KARAFUN</div>
+      <!-- PIN Lock Screen -->
+      <div class="karaoke-pin-screen" id="karaokePinScreen">
+        <div class="karaoke-pin__logo">
+          <div class="karaoke-pin__logo-text">KaraFun</div>
+          <div class="karaoke-pin__logo-sub">Entrez le code d'accès</div>
         </div>
+        <div class="karaoke-pin__dots">
+          <div class="karaoke-pin__dot"></div>
+          <div class="karaoke-pin__dot"></div>
+          <div class="karaoke-pin__dot"></div>
+          <div class="karaoke-pin__dot"></div>
+        </div>
+        <div class="karaoke-pin__error" id="karaokePinError">Code incorrect</div>
+        <div class="karaoke-pin__keypad" id="karaokePinKeypad">
+          <button class="karaoke-pin__key" data-key="1">1</button>
+          <button class="karaoke-pin__key" data-key="2">2</button>
+          <button class="karaoke-pin__key" data-key="3">3</button>
+          <button class="karaoke-pin__key" data-key="4">4</button>
+          <button class="karaoke-pin__key" data-key="5">5</button>
+          <button class="karaoke-pin__key" data-key="6">6</button>
+          <button class="karaoke-pin__key" data-key="7">7</button>
+          <button class="karaoke-pin__key" data-key="8">8</button>
+          <button class="karaoke-pin__key" data-key="9">9</button>
+          <button class="karaoke-pin__key karaoke-pin__key--empty"></button>
+          <button class="karaoke-pin__key" data-key="0">0</button>
+          <button class="karaoke-pin__key karaoke-pin__key--delete" data-key="delete">⌫</button>
+        </div>
+        <button class="karaoke-pin__cancel" id="karaokePinCancel">Annuler</button>
       </div>
 
-      <!-- Bottom dark section -->
-      <div class="karaoke-bottom">
-        <!-- Search -->
-        <div class="karaoke-search">
-          <div class="karaoke-search__bar">
-            <span class="karaoke-search__icon">🔍</span>
-            <input class="karaoke-search__input" type="text" placeholder="Rechercher..." readonly>
+      <!-- Main content (shown after PIN) -->
+      <div class="karaoke-main" id="karaokeMainContent">
+
+        <!-- Top player area (violet gradient) -->
+        <div class="karaoke-player-area" id="karaokePlayerArea">
+          <button class="karaoke-back-btn" id="karaokeBackBtn">
+            <span class="karaoke-back-btn__icon">‹</span>
+            <span>Accueil</span>
+          </button>
+          <div class="karaoke-logo-placeholder" id="karaokeLogoPlaceholder">
+            <div class="karaoke-logo-placeholder__icon">🎤</div>
+            <div class="karaoke-logo-placeholder__text">KARAFUN</div>
           </div>
-          <button class="karaoke-search__camera">📷</button>
         </div>
 
-        <!-- Filter tabs -->
-        <div class="karaoke-filters">
-          <button class="karaoke-filter active">MEILLEURS RÉSULTATS</button>
-          <button class="karaoke-filter">KARAOKÉ</button>
-          <button class="karaoke-filter">COMMUNAUTÉ</button>
+        <!-- Bottom dark section -->
+        <div class="karaoke-bottom">
+          <div class="karaoke-search">
+            <div class="karaoke-search__bar">
+              <span class="karaoke-search__icon">🔍</span>
+              <input class="karaoke-search__input" type="text" placeholder="Rechercher..." readonly>
+            </div>
+            <button class="karaoke-search__camera">📷</button>
+          </div>
+          <div class="karaoke-filters">
+            <button class="karaoke-filter active">MEILLEURS RÉSULTATS</button>
+            <button class="karaoke-filter">KARAOKÉ</button>
+            <button class="karaoke-filter">COMMUNAUTÉ</button>
+          </div>
+          <div class="karaoke-list" id="karaokeSongList"></div>
+          <div class="karaoke-tabs">
+            <button class="karaoke-tab active">
+              <span class="karaoke-tab__icon">🎤</span>
+              <span class="karaoke-tab__label">Karaoké</span>
+            </button>
+            <button class="karaoke-tab">
+              <span class="karaoke-tab__icon">⚔️</span>
+              <span class="karaoke-tab__label">Battle</span>
+            </button>
+            <button class="karaoke-tab">
+              <span class="karaoke-tab__icon">🎯</span>
+              <span class="karaoke-tab__label">Quiz</span>
+            </button>
+            <button class="karaoke-tab">
+              <span class="karaoke-tab__icon">🔍</span>
+              <span class="karaoke-tab__label">Rechercher</span>
+            </button>
+          </div>
         </div>
+      </div>
+    </div>
 
-        <!-- Song list -->
-        <div class="karaoke-list" id="karaokeSongList">
-          <!-- Songs rendered by JS -->
-        </div>
-
-        <!-- Tab bar -->
-        <div class="karaoke-tabs">
-          <button class="karaoke-tab active">
-            <span class="karaoke-tab__icon">🎤</span>
-            <span class="karaoke-tab__label">Karaoké</span>
-          </button>
-          <button class="karaoke-tab">
-            <span class="karaoke-tab__icon">⚔️</span>
-            <span class="karaoke-tab__label">Battle</span>
-          </button>
-          <button class="karaoke-tab">
-            <span class="karaoke-tab__icon">🎯</span>
-            <span class="karaoke-tab__label">Quiz</span>
-          </button>
-          <button class="karaoke-tab" id="karaokeSearchTab">
-            <span class="karaoke-tab__icon">🔍</span>
-            <span class="karaoke-tab__label">Rechercher</span>
-          </button>
-        </div>
+    <!-- Karaoke Fullscreen Video Player -->
+    <div class="karaoke-fullscreen" id="karaokeFullscreen">
+      <video id="karaokeFullVideo" playsinline controls></video>
+      <div class="karaoke-fullscreen__bar">
+        <div class="karaoke-fullscreen__title" id="karaokeFullTitle"></div>
+        <button class="karaoke-fullscreen__stop" id="karaokeStopBtn">■ Arrêter</button>
       </div>
     </div>
 

@@ -33,7 +33,16 @@
       "Bash(git init *)",
       "Bash(git remote *)",
       "Bash(git fetch *)",
-      "Bash(git checkout *)"
+      "Bash(git checkout *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(echo \"EXIT: $?\")",
+      "Bash(gh auth *)",
+      "Bash(git -c credential.helper='!f\\(\\) { echo \"username=x-oauth-basic\"; echo \"password=$\\(gh auth token\\)\"; }; f' push origin main)",
+      "Bash(gh api *)",
+      "Bash(git config *)",
+      "Bash(git rm *)",
+      "Bash(echo \"DONE: $?\")"
     ]
   }
 }
